@@ -19,6 +19,8 @@ source $_CURRENT_FILE_DIR/stella-link.sh include
 # https://github.com/sequenceiq/docker-ngrokd
 # http://blog.sequenceiq.com/blog/2014/10/09/ngrok-docker/
 
+DEFAULT_GOVER=$(go version | cut -d" " -f3 | cut -d"o" -f2)
+
 function usage() {
     echo "USAGE :"
     echo "----------------"
@@ -35,7 +37,7 @@ ACTION=					'action' 			a					'prepare build clean'					Action.
 "
 OPTIONS="
 DOMAIN=''				'd'			'my.domain.com'					's'			0			''		Domain name.
-GOVER='1.4.2'			''			''								's'			0 			'' 		Go version used to cross compile client
+GOVER='$DEFAULT_GOVER'			''			''								's'			0 			'' 		Go version used to cross compile client
 "
 
 $STELLA_API argparse "$0" "$OPTIONS" "$PARAMETERS" "ngrok-build" "$(usage)" "" "$@"
@@ -186,16 +188,16 @@ case $ACTION in
 
 		echo "** You should now get your result files from $RELEASE_HOME"
 		echo "client usage :"
-		echo "		ngrok -subdomain=test1 -config=ngrok-config 80"
+		echo "		sudo ngrok -subdomain=test1 -config=ngrok-config 80"
 		echo "server usage :"
-		echo "		ngrokd -tlsKey='device.key' -tlsCrt='device.crt' -domain='$DOMAIN' -httpAddr=':80' -httpsAddr=':443'"
+		echo "		sudo ./ngrokd -tlsKey='device.key' -tlsCrt='device.crt' -domain='$DOMAIN' -httpAddr=':80' -httpsAddr=':443'"
 		echo ""
 		echo "		-httpAddr=':80' and -httpsAddr=':443' are user endpoints port. The entry of tunnels."
 		echo ""
-		echo "		Dont forget on server-side to add this into your /etc/hosts \
-					<DOMAIN-IP> $DOMAIN test1.$DOMAIN test2.$DOMAIN\
-					or add a wildcard into a DNS server : \
-					<DOMAIN-IP> *.$DOMAIN "
+		echo "		Dont forget on server-side to add this into your /etc/hosts"
+		echo "		<DOMAIN-IP> $DOMAIN test1.$DOMAIN test2.$DOMAIN"
+		echo "		or add a wildcard into a DNS server :"
+		echo "		<DOMAIN-IP> *.$DOMAIN"
 	;;
 
 esac
