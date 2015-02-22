@@ -33,10 +33,9 @@ NOTE : you dont need go. An isolated version of go will be built in current work
 ### cross compile ngrokd and ngrok :
 
 	ngrok-build.sh prepare
-	ngrob-build.sh build -d <your.domain.com>
+	ngrok-build.sh build -d <domain.com>
 
-
-see produced files in release folder
+replace domain.com whith you server domain name and see produced files in release folder
 
 NOTE : _gonative_ and _gox_ are used for cross-compile client and server
 * see : https://github.com/mitchellh/gox
@@ -58,7 +57,7 @@ With your just built binaries. For more details on how to use ngro , see https:/
 
 ## On Unix:
 
-If your domain is <domain.com>
+If your domain is domain.com
 
 ### client
 
