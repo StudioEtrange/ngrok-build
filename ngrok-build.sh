@@ -3,21 +3,7 @@ _CURRENT_FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 _CURRENT_RUNNING_DIR="$( cd "$( dirname "." )" && pwd )"
 source $_CURRENT_FILE_DIR/stella-link.sh include
 
-# official build server instruction
-# https://github.com/inconshreveable/ngrok/blob/master/docs/SELFHOSTING.md
-# NOTE : we need certificate only if we want to use HTTPS tunnel
 
-# build server/client instruction with your own self signed
-# https://gist.github.com/lyoshenka/002b7fbd801d0fd21f2f
-
-# for go cross compiling client use
-# https://github.com/mitchellh/gox
-# and maybe https://github.com/inconshreveable/gonative ?
-
-
-# sequenceIQ client/server version installed in docker
-# https://github.com/sequenceiq/docker-ngrokd
-# http://blog.sequenceiq.com/blog/2014/10/09/ngrok-docker/
 
 DEFAULT_GOVER=$(go version | cut -d" " -f3 | cut -d"o" -f2)
 
@@ -99,7 +85,7 @@ export GOPATH=$STELLA_APP_WORK_ROOT
 
 NGROK_HOME=$STELLA_APP_WORK_ROOT/ngrok
 GONATIVE_HOME=$STELLA_APP_WORK_ROOT/gonative
-RELEASE_HOME=$STELLA_APP_WORK_ROOT/release
+RELEASE_HOME=$STELLA_APP_ROOT/release
 GOTOOLCHAIN=$STELLA_APP_WORK_ROOT/gonative-toolchain
 GOX_HOME=$STELLA_APP_WORK_ROOT/gox
 CERT_HOME=$STELLA_APP_WORK_ROOT/cert
@@ -110,6 +96,7 @@ check_requirements
 case $ACTION in
 	clean)
 		$STELLA_API del_folder $STELLA_APP_WORK_ROOT
+		$STELLA_API del_folder $RELEASE_HOME
 	;;
 	prepare)
 		echo "** get all requirement"
@@ -163,7 +150,7 @@ case $ACTION in
 		cd $NGROK_HOME
 		export GOPATH=$NGROK_HOME
 
-		# echo "** build server for current platform"
+		# echo "** build server only for current platform"
 		# make release-server
 
 		echo "** build server for all platforms"
@@ -176,14 +163,16 @@ case $ACTION in
 		
 		echo "** retrieving files"
 		$STELLA_API del_folder $RELEASE_HOME
-		mkdir -p $RELEASE_HOME
-		cp -f ngrok* $RELEASE_HOME/
-		cp -f $CERT_HOME/device.crt $RELEASE_HOME/
-		cp -f $CERT_HOME/device.key $RELEASE_HOME/
+		mkdir -p $RELEASE_HOME/client
+		mkdir -p $RELEASE_HOME/server
+		mv -f ngrokd* $RELEASE_HOME/server
+		mv -f ngrok* $RELEASE_HOME/client
+		cp -f $CERT_HOME/device.crt $RELEASE_HOME/server
+		cp -f $CERT_HOME/device.key $RELEASE_HOME/server
 
 
 		echo "** generate ngrok client configuration file"
-		echo -e "server_addr: $DOMAIN:4443\ntrust_host_root_certs: false" > $RELEASE_HOME/ngrok-config
+		echo -e "server_addr: $DOMAIN:4443\ntrust_host_root_certs: false" > $RELEASE_HOME/client/ngrok-config
 
 
 		echo "** You should now get your result files from $RELEASE_HOME"
