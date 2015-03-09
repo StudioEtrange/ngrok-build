@@ -29,11 +29,12 @@ NOTE : you dont need go. An isolated version of go will be built in current work
 
 	git clone https://github.com/StudioEtrange/ngrok-build
 	cd ngrok-build
+	./stella-link bootstrap
 
 ### cross compile ngrokd and ngrok :
 
-	ngrok-build.sh prepare
-	ngrok-build.sh build -d <domain.com>
+	./ngrok-build.sh prepare
+	./ngrok-build.sh build -d <domain.com>
 
 replace domain.com whith you server domain name and see produced files in release folder
 
@@ -43,12 +44,12 @@ NOTE : _gonative_ and _gox_ are used for cross-compile client and server
 
 ### for cleaning :
 
-	ngrok-build.sh clean
+	./ngrok-build.sh clean
 
 
 ### for help :
 
-	ngrok-build.sh -h
+	./ngrok-build.sh -h
 
 
 # ngrokd and ngrok usage

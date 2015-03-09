@@ -61,11 +61,18 @@ function check_requirements() {
 	fi
 
 	if [ -z $(which git) ]; then 
-		echo " WARN : you have to install openssl on your system"
+		echo " WARN : you have to install git on your system"
 		echo " see http://git-scm.com/"
 		exit 1
 	else
-		echo "git detected : $(git version)"
+		echo "git detected : $(git --version)"
+	fi
+
+	if [ -z $(which hg) ]; then 
+		echo " WARN : you have to install mercurial on your system"
+		exit 1
+	else
+		echo "hg detected"
 	fi
 
 	if [ -z $(which openssl) ]; then 
