@@ -1,6 +1,6 @@
 # ngrok-build
 
-Build ngrokd server and ngrok without a pain for Linux, MacOS and Windows
+Build ngrokd server and ngrok client without a pain for Linux, MacOS and Windows in one time.
 
 So you can use your own ngrok server on you own server with your domain name
 
