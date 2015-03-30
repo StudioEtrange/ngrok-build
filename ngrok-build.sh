@@ -29,8 +29,6 @@ GOVER='$DEFAULT_GOVER'			''			''								's'			0 			'' 		Go version used to cross
 $STELLA_API argparse "$0" "$OPTIONS" "$PARAMETERS" "ngrok-build" "$(usage)" "" "$@"
 
 
-
-
 function gen_cert() {
 
 	if [ "$DOMAIN" == "" ]; then
@@ -102,8 +100,8 @@ check_requirements
 
 case $ACTION in
 	clean)
-		$STELLA_API del_folder $STELLA_APP_WORK_ROOT
-		$STELLA_API del_folder $RELEASE_HOME
+		rm -Rf $STELLA_APP_WORK_ROOT
+		rm -Rf $RELEASE_HOME
 	;;
 	prepare)
 		echo "** get all requirement"
@@ -122,7 +120,7 @@ case $ACTION in
 		make
 
 		echo "** build cross compiling native buildchain"
-		$STELLA_API del_folder $GOTOOLCHAIN
+		rm -Rf $GOTOOLCHAIN
 		mkdir -p $GOTOOLCHAIN
 		cd $GOTOOLCHAIN
 		$GONATIVE_HOME/gonative build --version="$GOVER" --platforms="windows_386 windows_amd64 linux_386 linux_amd64 darwin_386 darwin_amd64"
@@ -169,7 +167,7 @@ case $ACTION in
 		PATH=$GOTOOLCHAIN/go/bin:$PATH make -f Makefile-gox release-client-gox
 		
 		echo "** retrieving files"
-		$STELLA_API del_folder $RELEASE_HOME
+		rm -Rf $RELEASE_HOME
 		mkdir -p $RELEASE_HOME/client
 		mkdir -p $RELEASE_HOME/server
 		mv -f ngrokd* $RELEASE_HOME/server
