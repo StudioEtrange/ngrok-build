@@ -12,8 +12,6 @@ if [ "$1" == "include" ]||[ "$1" == "chaining" ]; then
 			echo "** WARNING Stella is missing -- bootstraping stella"
 			$_STELLA_LINK_CURRENT_FILE_DIR/stella-link.sh bootstrap
 		fi
-	else
-		echo " ** Stella found : $STELLA_ROOT"
 	fi
 fi
 
