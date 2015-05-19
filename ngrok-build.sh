@@ -105,7 +105,7 @@ case $ACTION in
 	;;
 	prepare)
 		echo "** get all requirement"
-        $STELLA_API get_all_data
+        $STELLA_API get_data_pack "DATA_LIST"
 
         echo "** install all features"
         $STELLA_API get_features
