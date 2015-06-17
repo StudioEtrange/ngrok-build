@@ -11,7 +11,7 @@ function usage() {
     echo "USAGE :"
     echo "----------------"
     echo " o-- List of commands"
-    echo " L  prepare : get everything you need"
+    echo " L  prepare [--gover=<go version>] : get everything you need -- you could specify go version for cross-compile toolchain"
     echo " L  build -d my.domain.com : build ngrokd server and ngrok client paired together"
     echo " L  clean : delete everything for a fresh start"
 }
@@ -103,6 +103,7 @@ case $ACTION in
 		rm -Rf $STELLA_APP_WORK_ROOT
 		rm -Rf $RELEASE_HOME
 	;;
+
 	prepare)
 		echo "** get all requirement"
         $STELLA_API get_data_pack "DATA_LIST"
@@ -115,15 +116,15 @@ case $ACTION in
         go get github.com/mitchellh/gox
         #export GOPATH=$STELLA_APP_WORK_ROOT
 
-        echo "** build gonative"
-        cd $GONATIVE_HOME
-		make
+        echo "** install gonative"
+        export GOPATH=$GONATIVE_HOME
+		go get github.com/inconshreveable/gonative
 
 		echo "** build cross compiling native buildchain"
 		rm -Rf $GOTOOLCHAIN
 		mkdir -p $GOTOOLCHAIN
 		cd $GOTOOLCHAIN
-		$GONATIVE_HOME/gonative build --version="$GOVER" --platforms="windows_386 windows_amd64 linux_386 linux_amd64 darwin_386 darwin_amd64"
+		$GONATIVE_HOME/bin/gonative build --version="$GOVER" --platforms="windows_386 windows_amd64 linux_386 linux_amd64 darwin_386 darwin_amd64"
 
 	;;
 

@@ -1,6 +1,8 @@
 #!/bin/bash
 _STELLA_LINK_CURRENT_FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export STELLA_ROOT=$_STELLA_LINK_CURRENT_FILE_DIR/../stella
+STELLA_DEP_FLAVOUR=GIT
+STELLA_DEP_VERSION=LATEST
 [ ! "$1" == "chaining" ] && STELLA_APP_ROOT=$_STELLA_LINK_CURRENT_FILE_DIR
 
 if [ ! "$1" == "nothing" ]; then
