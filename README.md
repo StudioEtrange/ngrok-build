@@ -8,11 +8,11 @@ So you can use your own ngrok server on you own server with your domain name
 * generate certificate with your domain
 * ngrokd and ngrok binary are paired together
 * generate appropriate config file for client
-* ngrok-build can be use on linux, macos and windows (SOON)
+* ngrok-build can be use on linux and macos (and windows SOON)
 
 ngrok famous tool is a reverse proxy (see https://github.com/inconshreveable/ngrok)
 
-NOTE : ngrok-build is built upon _stella_
+NOTE : ngrok-build is built with _stella_
 
 
 # Requirements
@@ -29,7 +29,7 @@ NOTE : you dont need go. An isolated version of go will be built in current work
 
 	git clone https://github.com/StudioEtrange/ngrok-build
 	cd ngrok-build
-	./stella-link bootstrap
+	./stella-link.sh bootstrap
 
 ### cross compile ngrokd and ngrok :
 
@@ -38,7 +38,7 @@ NOTE : you dont need go. An isolated version of go will be built in current work
 
 replace domain.com whith you server domain name and see produced files in release folder
 
-NOTE : _gonative_ and _gox_ are used for cross-compile client and server
+FOR INFORMATION : _gonative_ and _gox_ are used for cross-compile client and server
 * see : https://github.com/mitchellh/gox
 * see : https://github.com/inconshreveable/gonative
 
@@ -54,7 +54,8 @@ NOTE : _gonative_ and _gox_ are used for cross-compile client and server
 
 # ngrokd and ngrok usage
 
-With your just built binaries. For more details on how to use ngro , see https://github.com/inconshreveable/ngrok
+Your built binaries are in release directory.
+For more details on how to use ngrok see https://github.com/inconshreveable/ngrok
 
 ## On Linux/MacOS
 
