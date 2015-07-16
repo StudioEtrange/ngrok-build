@@ -12,7 +12,7 @@ So you can use your own ngrok server on you own server with your domain name
 
 ngrok famous tool is a reverse proxy (see https://github.com/inconshreveable/ngrok)
 
-NOTE : ngrok-build is built with _stella_
+NOTE : ngrok-build is built with _stella_ (see https://github.com/StudioEtrange/stella)
 
 
 # Requirements
