@@ -27,9 +27,25 @@ NOTE : you dont need go. An isolated version of go will be built in current work
 
 ### installation :
 
+
+automatic way (recommanded) :
+	
+	cd ~
 	git clone https://github.com/StudioEtrange/ngrok-build
 	cd ngrok-build
 	./stella-link.sh bootstrap
+
+manual way :
+
+	cd ~
+	git clone https://github.com/StudioEtrange/stella
+	cd stella
+	./stella.sh stella install dep
+
+	cd ~
+	git clone https://github.com/StudioEtrange/ngrok-build
+	cd ngrok-build
+		
 
 ### cross compile ngrokd and ngrok :
 
