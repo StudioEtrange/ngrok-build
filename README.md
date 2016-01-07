@@ -1,3 +1,6 @@
+build : [![Circle CI](https://circleci.com/gh/StudioEtrange/ngrok-build/tree/master.svg?style=svg)](https://circleci.com/gh/StudioEtrange/ngrok-build/tree/master)
+
+
 # ngrok-build
 
 Build ngrokd server and ngrok client without a pain for Linux, MacOS and Windows in one time.
