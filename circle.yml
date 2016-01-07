@@ -1,0 +1,8 @@
+test:
+  pre:
+    - ./stella-link.sh bootstrap
+    - ./ngrok-build.sh prepare
+    - ./ngrok-build.sh build -d domain.com
+    
+  post:
+    - [ ! -d /home/ubuntu/ngrok-build/release ] && exit 1
