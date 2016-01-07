@@ -5,13 +5,13 @@ source $_CURRENT_FILE_DIR/stella-link.sh include
 
 
 
-DEFAULT_GOVER=$(go version | cut -d" " -f3 | cut -d"o" -f2)
+DEFAULT_GOVER="1.4.2"
 
 function usage() {
     echo "USAGE :"
     echo "----------------"
     echo " o-- List of commands"
-    echo " L  prepare [--gover=<go version>] : get everything you need -- you could specify go version for cross-compile toolchain"
+    echo " L  prepare [--gover=<go version>] : get everything you need -- you could specify a go version which will be used for the cross-compile toolchain"
     echo " L  build -d my.domain.com : build ngrokd server and ngrok client paired together"
     echo " L  clean : delete everything for a fresh start"
 }
@@ -118,13 +118,13 @@ case $ACTION in
 
         echo "** install gonative"
         export GOPATH=$GONATIVE_HOME
-		go get github.com/inconshreveable/gonative
+	go get github.com/inconshreveable/gonative
 
-		echo "** build cross compiling native buildchain"
-		rm -Rf $GOTOOLCHAIN
-		mkdir -p $GOTOOLCHAIN
-		cd $GOTOOLCHAIN
-		$GONATIVE_HOME/bin/gonative build --version="$GOVER" --platforms="windows_386 windows_amd64 linux_386 linux_amd64 darwin_386 darwin_amd64"
+	echo "** build cross compiling native buildchain"
+	rm -Rf $GOTOOLCHAIN
+	mkdir -p $GOTOOLCHAIN
+	cd $GOTOOLCHAIN
+	$GONATIVE_HOME/bin/gonative build --version="$GOVER" --platforms="windows_386 windows_amd64 linux_386 linux_amd64 darwin_386 darwin_amd64"
 
 	;;
 
