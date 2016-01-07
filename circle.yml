@@ -5,4 +5,4 @@ test:
     - ./ngrok-build.sh build -d domain.com
     
   post:
-    - if [ ! -d /home/ubuntu/ngrok-build/release ]; then exit 1; fi
+    - if [ ! -d /home/ubuntu/ngrok-build/released ]; then exit 1; fi
