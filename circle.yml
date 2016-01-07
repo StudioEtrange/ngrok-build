@@ -5,4 +5,17 @@ test:
     - ./ngrok-build.sh build -d domain.com
     
   post:
-    - if [ ! -d /home/ubuntu/ngrok-build/released ]; then exit 1; fi
+    - if [ ! -f "/home/ubuntu/ngrok-build/release/client/ngrok_darwin_386" ]; then exit 1; fi
+    - if [ ! -f "/home/ubuntu/ngrok-build/release/client/ngrok_darwin_amd64" ]; then exit 1; fi
+    - if [ ! -f "/home/ubuntu/ngrok-build/release/client/ngrok_linux_386" ]; then exit 1; fi
+    - if [ ! -f "/home/ubuntu/ngrok-build/release/client/ngrok_linux_amd64" ]; then exit 1; fi
+    - if [ ! -f "/home/ubuntu/ngrok-build/release/client/ngrok_windows_386.exe" ]; then exit 1; fi
+    - if [ ! -f "/home/ubuntu/ngrok-build/release/client/ngrok_windows_amd64.exe" ]; then exit 1; fi
+    - if [ ! -f "/home/ubuntu/ngrok-build/release/server/ngrokd_darwin_386" ]; then exit 1; fi
+    - if [ ! -f "/home/ubuntu/ngrok-build/release/server/ngrokd_darwin_amd64" ]; then exit 1; fi
+    - if [ ! -f "/home/ubuntu/ngrok-build/release/server/ngrokd_linux_386" ]; then exit 1; fi
+    - if [ ! -f "/home/ubuntu/ngrok-build/release/server/ngrokd_linux_amd64" ]; then exit 1; fi
+    - if [ ! -f "/home/ubuntu/ngrok-build/release/server/ngrokd_windows_386.exe" ]; then exit 1; fi
+    - if [ ! -f "/home/ubuntu/ngrok-build/release/server/ngrokd_windows_amd64.exe" ]; then exit 1; fi
+    - if [ ! -f "/home/ubuntu/ngrok-build/release/server/device.crt" ]; then exit 1; fi
+    - if [ ! -f "/home/ubuntu/ngrok-build/release/server/device.key" ]; then exit 1; fi
