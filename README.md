@@ -1,4 +1,4 @@
-build : [![Circle CI](https://circleci.com/gh/StudioEtrange/ngrok-build/tree/master.svg?style=svg)](https://circleci.com/gh/StudioEtrange/ngrok-build/tree/master)
+**build** | [![Circle CI](https://circleci.com/gh/StudioEtrange/ngrok-build/tree/master.svg?style=svg)](https://circleci.com/gh/StudioEtrange/ngrok-build/tree/master)
 
 
 # ngrok-build
