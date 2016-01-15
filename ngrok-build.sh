@@ -5,7 +5,7 @@ source $_CURRENT_FILE_DIR/stella-link.sh include
 
 
 
-DEFAULT_GOVER="1.4.3"
+DEFAULT_GOVER="1.4.2"
 
 function usage() {
     echo "USAGE :"
