@@ -4,6 +4,9 @@ _CURRENT_RUNNING_DIR="$( cd "$( dirname "." )" && pwd )"
 source $_CURRENT_FILE_DIR/stella-link.sh include
 
 
+# GENERATE NGROK PATCH
+# FROM 1.7.1 to latest version on master
+# git format-patch 1.7.1 --stdout > ngrok_patch_1.7.1_TO_20160312.patch
 
 DEFAULT_GOVER="1.4.2"
 
@@ -108,6 +111,11 @@ case $ACTION in
 		echo "** get all requirement"
         $STELLA_API get_data_pack "DATA_LIST"
 
+        echo "** patch ngrok (if any)"
+        cp "$STELLA_APP_ROOT"/pool/patch/*.patch "$STELLA_APP_WORK_ROOT"/ngrok/
+        cd "$STELLA_APP_WORK_ROOT"/ngrok
+        patch -Np1 < *.patch
+
         echo "** install all features"
         $STELLA_API get_features
 
@@ -118,13 +126,13 @@ case $ACTION in
 
         echo "** install gonative"
         export GOPATH=$GONATIVE_HOME
-	go get github.com/inconshreveable/gonative
+		go get github.com/inconshreveable/gonative
 
-	echo "** build cross compiling native buildchain"
-	rm -Rf $GOTOOLCHAIN
-	mkdir -p $GOTOOLCHAIN
-	cd $GOTOOLCHAIN
-	$GONATIVE_HOME/bin/gonative build --version="$GOVER" --platforms="windows_386 windows_amd64 linux_386 linux_amd64 darwin_386 darwin_amd64"
+		echo "** build cross compiling native buildchain"
+		rm -Rf $GOTOOLCHAIN
+		mkdir -p $GOTOOLCHAIN
+		cd $GOTOOLCHAIN
+		$GONATIVE_HOME/bin/gonative build --version="$GOVER" --platforms="windows_386 windows_amd64 linux_386 linux_amd64 darwin_386 darwin_amd64"
 
 	;;
 

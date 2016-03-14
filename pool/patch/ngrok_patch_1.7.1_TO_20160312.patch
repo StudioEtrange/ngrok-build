@@ -1,0 +1,299 @@
+From 15a6b812d53dbf8ceaa6036b9c6b702c957f6c23 Mon Sep 17 00:00:00 2001
+From: Xin Yu <scaner@gmail.com>
+Date: Fri, 20 Mar 2015 15:05:53 +0800
+Subject: [PATCH 1/8] support command option for starting all tunnels. #129
+
+---
+ src/ngrok/client/cli.go    | 4 ++++
+ src/ngrok/client/config.go | 3 +++
+ 2 files changed, 7 insertions(+)
+
+diff --git a/src/ngrok/client/cli.go b/src/ngrok/client/cli.go
+index 9f11eb5..45d2244 100644
+--- a/src/ngrok/client/cli.go
++++ b/src/ngrok/client/cli.go
+@@ -22,6 +22,7 @@ Examples:
+ Advanced usage: ngrok [OPTIONS] <command> [command args] [...]
+ Commands:
+ 	ngrok start [tunnel] [...]    Start tunnels by name from config file
++	ngork start-all               Start all tunnels defined in config file
+ 	ngrok list                    List tunnel names from config file
+ 	ngrok help                    Print help
+ 	ngrok version                 Print ngrok version
+@@ -29,6 +30,7 @@ Commands:
+ Examples:
+ 	ngrok start www api blog pubsub
+ 	ngrok -log=stdout -config=ngrok.yml start ssh
++	ngrok start-all
+ 	ngrok version
+ 
+ `
+@@ -112,6 +114,8 @@ func ParseArgs() (opts *Options, err error) {
+ 		opts.args = flag.Args()[1:]
+ 	case "start":
+ 		opts.args = flag.Args()[1:]
++	case "start-all":
++		opts.args = flag.Args()[1:]
+ 	case "version":
+ 		fmt.Println(version.MajorMinor())
+ 		os.Exit(0)
+diff --git a/src/ngrok/client/config.go b/src/ngrok/client/config.go
+index 2abe59c..2379bcc 100644
+--- a/src/ngrok/client/config.go
++++ b/src/ngrok/client/config.go
+@@ -190,6 +190,9 @@ func LoadConfiguration(opts *Options) (config *Configuration, err error) {
+ 			}
+ 		}
+ 
++	case "start-all":
++		return
++
+ 	default:
+ 		err = fmt.Errorf("Unknown command: %s", opts.command)
+ 		return
+-- 
+2.5.4 (Apple Git-61)
+
+
+From 58f74e8eec951ee5bc8b1ee0fe48a7d508d03f37 Mon Sep 17 00:00:00 2001
+From: Otto Jongerius <ojongerius@atlassian.com>
+Date: Thu, 27 Aug 2015 18:07:42 +1000
+Subject: [PATCH 2/8] Update travis.yml to test against less ancient versions
+ of Go. Add badge.
+
+---
+ .travis.yml | 12 +++++++++++-
+ README.md   |  3 +++
+ 2 files changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/.travis.yml b/.travis.yml
+index ddf4f86..258cf71 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -1,4 +1,14 @@
++language: go
+ script: make release-all
+ install: true
+ go: 
+-- 1.1
++    - 1.1
++    - 1.2
++    - 1.3
++    - 1.4
++    - 1.5
++    - tip
++
++matrix:
++    allow_failures:
++        - go: tip
+diff --git a/README.md b/README.md
+index e3f90d8..c1b8698 100644
+--- a/README.md
++++ b/README.md
+@@ -1,3 +1,6 @@
++[![Build
++status](https://travis-ci.org/inconshreveable/ngrok.svg)](https://travis-ci.org/inconshreveable/ngrok)
++
+ # ngrok - Introspected tunnels to localhost ([homepage](https://ngrok.com))
+ ### "I want to securely expose a web server to the internet and capture all traffic for detailed inspection and replay"
+ ![](https://ngrok.com/static/img/overview.png)
+-- 
+2.5.4 (Apple Git-61)
+
+
+From 31e1d02a35956c10ff1daad913990a9819d9b161 Mon Sep 17 00:00:00 2001
+From: Otto Jongerius <ojongerius@atlassian.com>
+Date: Thu, 27 Aug 2015 18:14:42 +1000
+Subject: [PATCH 3/8] Ditch ancient Go version.
+
+---
+ .travis.yml | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/.travis.yml b/.travis.yml
+index 258cf71..a03fd83 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -2,8 +2,6 @@ language: go
+ script: make release-all
+ install: true
+ go: 
+-    - 1.1
+-    - 1.2
+     - 1.3
+     - 1.4
+     - 1.5
+-- 
+2.5.4 (Apple Git-61)
+
+
+From 475911a83ce7c972cf1f36c80c882b491cabbb50 Mon Sep 17 00:00:00 2001
+From: Otto Jongerius <ojongerius@atlassian.com>
+Date: Thu, 27 Aug 2015 18:16:12 +1000
+Subject: [PATCH 4/8] set sudo to false to use new container based
+ infrastructure.
+
+---
+ .travis.yml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/.travis.yml b/.travis.yml
+index a03fd83..d30a305 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -1,3 +1,4 @@
++sudo: false
+ language: go
+ script: make release-all
+ install: true
+-- 
+2.5.4 (Apple Git-61)
+
+
+From 749dfd263d8f3d4e82a8f4d7ccf738e5a8fe59af Mon Sep 17 00:00:00 2001
+From: Vadim Poplavskiy <im@demetrodon.com>
+Date: Sun, 29 Nov 2015 19:12:42 +0200
+Subject: [PATCH 5/8] Bug fix of width path for web dashboard.
+
+---
+ assets/client/page.html | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/assets/client/page.html b/assets/client/page.html
+index b445507..69518a1 100644
+--- a/assets/client/page.html
++++ b/assets/client/page.html
+@@ -25,7 +25,7 @@
+                 color:white;
+             }
+             .path {
+-              width: 300px;
++              width: 100%;
+             }
+             .wrapped {
+               word-wrap: break-word;
+-- 
+2.5.4 (Apple Git-61)
+
+
+From 761e6d0de87f4175b91a007951d7ca4ab12b7d04 Mon Sep 17 00:00:00 2001
+From: Muromi Rikka <laike9m@gmail.com>
+Date: Fri, 5 Feb 2016 21:18:24 +0800
+Subject: [PATCH 6/8] Modified log4go import path
+
+Google code stopped service, so `make release-server` failed:
+```
+package code.google.com/p/log4go: unable to detect version control system
+```
+---
+ src/ngrok/log/logger.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/ngrok/log/logger.go b/src/ngrok/log/logger.go
+index 41218ce..1fdea44 100644
+--- a/src/ngrok/log/logger.go
++++ b/src/ngrok/log/logger.go
+@@ -1,7 +1,7 @@
+ package log
+ 
+ import (
+-	log "code.google.com/p/log4go"
++	log "github.com/alecthomas/log4go"
+ 	"fmt"
+ )
+ 
+-- 
+2.5.4 (Apple Git-61)
+
+
+From f32dfef05845ae34763ec7bceecae544880bd82d Mon Sep 17 00:00:00 2001
+From: Alan Shreve <alan@inconshreveable.com>
+Date: Wed, 10 Feb 2016 11:40:26 -0800
+Subject: [PATCH 7/8] Update README.md
+
+---
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/README.md b/README.md
+index c1b8698..0024551 100644
+--- a/README.md
++++ b/README.md
+@@ -10,7 +10,7 @@ ngrok is a reverse proxy that creates a secure tunnel from a public endpoint to
+ ngrok captures and analyzes all traffic over the tunnel for later inspection and replay.
+ 
+ ## ngrok 2.0
+-**NOTE** This repository contains the code for ngrok 1.0. The code for ngrok 2.0 is not yet open source.
++**NOTE** This repository contains the code for ngrok 1.0. The code for ngrok 2.0 is not open source.
+ 
+ ## What can I do with ngrok?
+ - Expose any http service behind a NAT or firewall to the internet on a subdomain of ngrok.com
+-- 
+2.5.4 (Apple Git-61)
+
+
+From 6ab305702d488e3277d40571719a9d8a34c6cede Mon Sep 17 00:00:00 2001
+From: Alan Shreve <alan@inconshreveable.com>
+Date: Fri, 11 Mar 2016 20:14:02 -0800
+Subject: [PATCH 8/8] Update README with project status and contribution policy
+
+---
+ README.md | 29 ++++++++++++++++++++---------
+ 1 file changed, 20 insertions(+), 9 deletions(-)
+
+diff --git a/README.md b/README.md
+index 0024551..eb1dcaa 100644
+--- a/README.md
++++ b/README.md
+@@ -2,15 +2,31 @@
+ status](https://travis-ci.org/inconshreveable/ngrok.svg)](https://travis-ci.org/inconshreveable/ngrok)
+ 
+ # ngrok - Introspected tunnels to localhost ([homepage](https://ngrok.com))
+-### "I want to securely expose a web server to the internet and capture all traffic for detailed inspection and replay"
++### ”I want to expose a local server behind a NAT or firewall to the internet.”
+ ![](https://ngrok.com/static/img/overview.png)
+ 
+ ## What is ngrok?
+ ngrok is a reverse proxy that creates a secure tunnel from a public endpoint to a locally running web service.
+ ngrok captures and analyzes all traffic over the tunnel for later inspection and replay.
+ 
+-## ngrok 2.0
+-**NOTE** This repository contains the code for ngrok 1.0. The code for ngrok 2.0 is not open source.
++## ngrok 2.x
++
++ngrok 2.x is the successor to 1.x and the focus of all current development effort. Its source code is not available.
++
++**NOTE** This repository contains the code for ngrok 1.x.
++
++## Status of the ngrok 1.x project
++
++ngrok 1.x is no longer developed, supported or maintained by its author, except to ensure that the project continues to compile. The contribution policy has the following guidelines:
++
++1. All issues against this repository will be closed unless they demonstrate a crash or other complete failure of ngrok's functionality.
++2. All issues against this repository are for 1.x only, any issues for 2.x will be closed.
++3. No new features will be added. Any pull requests with new features will be closed. Please fork the project instead.
++4. Pull requests fixing existing bugs or improving documentation are welcomed.
++
++## The ngrok 1.x hosted service
++
++ngrok.com ran a pay-what-you-want hosted service of 1.x from early 2013 until April 7, 2016. Afterwards, it only runs 2.x service.
+ 
+ ## What can I do with ngrok?
+ - Expose any http service behind a NAT or firewall to the internet on a subdomain of ngrok.com
+@@ -26,12 +42,7 @@ ngrok captures and analyzes all traffic over the tunnel for later inspection and
+ - Debugging and understanding any web service by inspecting the HTTP traffic
+ - Running networked services on machines that are firewalled off from the internet
+ 
+-
+-## Downloading and installing ngrok
+-ngrok has _no_ runtime dependencies. Just download a single binary for your platform and run it. Some premium features
+-are only available by creating an account on ngrok.com. If you need them, [create an account on ngrok.com](https://ngrok.com/signup).
+-
+-#### [Download ngrok for your platform](https://ngrok.com/download)
++#### [Pre-compiled ngrok 1.x binaries for your platform](https://ngrok.com/download/1)
+ 
+ ## Developing on ngrok
+ [ngrok developer's guide](docs/DEVELOPMENT.md)
+-- 
+2.5.4 (Apple Git-61)
+

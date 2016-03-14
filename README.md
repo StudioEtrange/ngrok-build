@@ -17,6 +17,7 @@ ngrok famous tool is a reverse proxy (see https://github.com/inconshreveable/ngr
 
 NOTE : ngrok-build is built with _stella_ (see https://github.com/StudioEtrange/stella)
 
+NOTE : ngrok built version is 1.7.1 with extra patch uptodated at 2016-03-12 (resolve minor bugs and google code go logger issue)
 
 # Requirements
 
